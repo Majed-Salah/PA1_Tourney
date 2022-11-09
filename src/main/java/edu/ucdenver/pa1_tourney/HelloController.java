@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class HelloController {
 
     public TextField txtCountryField;
-    public ChoiceBox<String> choiceCountry;
+    public ChoiceBox<Country> choiceCountry;
     public TextField txtTeamNameField;
     private Tournament tournament;
     private ArrayList<String> countryNames = new ArrayList<>();
@@ -28,7 +28,7 @@ public class HelloController {
             countryNames.add(country.getCountryName());
         }
         if(tournament.getListCountries().size() > 0){
-            this.choiceCountry.setItems(FXCollections.observableArrayList(countryNames));
+            this.choiceCountry.setItems(FXCollections.observableArrayList(tournament.getListCountries()));
         }
     }
 
@@ -42,7 +42,7 @@ public class HelloController {
         try {
             this.tournament.addCountry(this.txtCountryField.getText());
             countryNames.add(this.txtCountryField.getText());
-            this.choiceCountry.setItems(FXCollections.observableArrayList(countryNames));
+            this.choiceCountry.setItems(FXCollections.observableArrayList(tournament.getListCountries()));
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Country Added Successfully");
             alert.show();
         }
@@ -54,7 +54,7 @@ public class HelloController {
 
     public void addTeam(ActionEvent actionEvent) {
         try{
-            tournament.addTeam(txtTeamNameField.getText(), choiceCountry.getValue());
+            tournament.addTeam(txtTeamNameField.getText(), choiceCountry.getValue().getCountryName());
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Team Added Successfully");
             alert.show();
         }
