@@ -12,4 +12,8 @@ public class Referee {
     public Country getCountry(){
         return country;
     }
+
+    public String getName(){
+        return name;
+    }
 }

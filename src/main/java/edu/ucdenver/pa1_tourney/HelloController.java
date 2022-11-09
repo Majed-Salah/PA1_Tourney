@@ -43,6 +43,8 @@ public class HelloController {
             this.tournament.addCountry(this.txtCountryField.getText());
             countryNames.add(this.txtCountryField.getText());
             this.choiceCountry.setItems(FXCollections.observableArrayList(countryNames));
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Country Added Successfully");
+            alert.show();
         }
         catch(IllegalArgumentException iae){
             Alert alert = new Alert(Alert.AlertType.ERROR, iae.getMessage());
@@ -53,6 +55,8 @@ public class HelloController {
     public void addTeam(ActionEvent actionEvent) {
         try{
             tournament.addTeam(txtTeamNameField.getText(), choiceCountry.getValue());
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Team Added Successfully");
+            alert.show();
         }
         catch(IllegalArgumentException iae){
             Alert alert = new Alert(Alert.AlertType.ERROR, iae.getMessage());

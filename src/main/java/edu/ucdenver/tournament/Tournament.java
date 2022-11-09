@@ -49,19 +49,21 @@ public class Tournament {
         }
     }
 
-    public void addReferee(String name, String country){
+    public void addReferee(String name, String country) throws IllegalArgumentException{
         Country c = null;
         for(Country count: participatingCountries){
             if(count.getCountryName().equals(name)){
                 c = count;
             }
         }
-        try {
-            Referee referee = new Referee(name, c);
-            listReferees.add(referee);
-        }
-        catch(Exception e){
-            System.err.println(e);
+        for(Referee referee: listReferees){
+            if(referee.getName().equals(name)){
+                throw new IllegalArgumentException();
+            }
+            else{
+                Referee ref = new Referee(name, c);
+                listReferees.add(ref);
+            }
         }
     }
 
