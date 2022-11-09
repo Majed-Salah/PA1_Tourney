@@ -39,10 +39,10 @@ public class Tournament {
         }
     }
 
-    public void addCountry(String country) throws Exception{
+    public void addCountry(String country) throws IllegalArgumentException{
         Country c = new Country(country);
         if(this.participatingCountries.contains(c)){
-            throw new Exception();
+            throw new IllegalArgumentException();
         }
         else{
             this.participatingCountries.add(c);
@@ -182,6 +182,10 @@ public class Tournament {
 
         return matchLineUp;
 
+    }
+
+    public ArrayList<Country> getListCountries(){
+        return participatingCountries;
     }
 
 
