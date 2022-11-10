@@ -1,19 +1,20 @@
 package edu.ucdenver.tournament;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 
 public class Tournament {
     private String name;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     private ArrayList<Team> listTeams;
     private ArrayList<Country> participatingCountries;
     private ArrayList<Referee> listReferees;
     private ArrayList<Match> listMatches;
 
-    public Tournament(String name, LocalDate startDate, LocalDate endDate){
+    public Tournament(String name, LocalDateTime startDate, LocalDateTime endDate){
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -77,7 +78,7 @@ public class Tournament {
         team.addPlayer(playerName, age, height, weight);
     }
 
-    public void addMatch(LocalDate dateTime, String teamAName, String teamBName){
+    public void addMatch(LocalDateTime dateTime, String teamAName, String teamBName){
         Team teamA = null;
         Team teamB = null;
 
@@ -94,12 +95,35 @@ public class Tournament {
         listMatches.add(match);
     }
 
-    public void addRefereeToMatch(LocalDate dateTime, String refereeName){
-        Match match = null;
+    /* Four referees are required for a match to take place.
+        • The nationality of the referees must be validated. A referee’s nationality cannot be any of the matches' countries.
+        • An exception is expected when these rules are violated, or either math or referee cannot be found in the system.*/
 
+    public void addRefereeToMatch(LocalDateTime dateTime, String refereeName){
+        String refsCountry = "";
+
+        for (Referee ref : listReferees){                       // parse through referee list
+            if (ref.getName().equals(refereeName)){             // if ref name in list -> ref found
+                refsCountry = ref.getCountry().getCountryName();// save the name of the refs country
+
+                for (Match m : listMatches){                    // now that we have a ref, parse thorough matches
+                    if (m.getReferees().size() < 4){            // only do something if there is less than 4 refs
+                        if (m.getDate() == dateTime) {          // since a ref can be added, lets find the match with date given
+
+                            // Make sure the ref is not from either of their countries
+                            if (!refsCountry.equals(m.getTeamA().getTeam().getCountry().getCountryName()) ||
+                                    !refsCountry.equals(m.getTeamB().getTeam().getCountry().getCountryName())){
+                                m.addReferee(ref);              // add the referee to the match
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
-    public void addPlayerToMatch(LocalDate dateTime, String teamName, String playerName){
+    public void addPlayerToMatch(LocalDateTime dateTime, String teamName, String playerName){
         Team team = null;
         Player player = null;
 
@@ -122,7 +146,7 @@ public class Tournament {
 
     }
 
-    public void setMatchScore(LocalDate matchDate, int team1Score, int team2Score){
+    public void setMatchScore(LocalDateTime matchDate, int team1Score, int team2Score){
         Match m = null;
         for(Match match: listMatches){
             if(match.getDate() == matchDate){
@@ -173,7 +197,7 @@ public class Tournament {
 
     }
 
-    public ArrayList<LineUp> getMatchLineUps(LocalDate matchDate){
+    public ArrayList<LineUp> getMatchLineUps(LocalDateTime matchDate){
         ArrayList<LineUp> matchLineUp = new ArrayList<>();
         for(Match match: listMatches){
             if(match.getDate() == matchDate){

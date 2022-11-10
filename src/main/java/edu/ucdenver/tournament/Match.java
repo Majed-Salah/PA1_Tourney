@@ -1,12 +1,12 @@
 package edu.ucdenver.tournament;
 
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Match {
-    private LocalDate dateTime;
+    private LocalDateTime dateTime;
     private int scoreTeamA;
     private int scoreTeamB;
     private ArrayList<Referee> matchReferees;
@@ -18,7 +18,7 @@ public class Match {
     /**
      * Match Class Constructor:
      */
-    public Match(LocalDate dateTime, Team teamA, Team teamB){
+    public Match(LocalDateTime dateTime, Team teamA, Team teamB){
         this.dateTime = dateTime;
         this.teamA = teamA;
         this.teamB = teamB;
@@ -42,7 +42,7 @@ public class Match {
      * isUpcoming Function:
      */
     public boolean isUpcoming(){
-        return LocalDate.now().isBefore(this.dateTime);
+        return LocalDateTime.now().isBefore(this.dateTime);
     }
 
     /**
@@ -87,7 +87,7 @@ public class Match {
      * Implemented so that the Tournament class's function setMatchScore, addPlayerToMatch, addRefereeToMatch
      * could identify the dateTime of a match.
      */
-    public LocalDate getDate(){
+    public LocalDateTime getDate(){
         return dateTime;
     }
 
