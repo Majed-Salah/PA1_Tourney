@@ -41,12 +41,12 @@ public class Tournament {
 
     public void addCountry(String country) throws IllegalArgumentException{
         Country c = new Country(country);
-        if(this.participatingCountries.contains(c)){
-            throw new IllegalArgumentException();
+        for(Country count: participatingCountries){
+            if(count.getCountryName().equals(country)){
+                throw new IllegalArgumentException();
+            }
         }
-        else{
-            this.participatingCountries.add(c);
-        }
+        this.participatingCountries.add(c);
     }
 
     public void addReferee(String name, String country) throws IllegalArgumentException{
