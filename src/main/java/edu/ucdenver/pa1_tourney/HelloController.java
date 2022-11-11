@@ -27,9 +27,7 @@ public class HelloController {
     public ComboBox <Team> choiceMatchTeamA;
     public ComboBox <Team> choiceMatchTeamB;
 
-//    public ComboBox dropdownMatchTimeHour;
-//    private ArrayList<Integer> hoursOfTheDay = new ArrayList<>();
-    public ChoiceBox choiceboxMatchTimeMinute;
+    public ChoiceBox <Integer> choiceboxMatchTimeMinute;
     private ArrayList <Integer> minutesOfTheDay = new ArrayList<>(Arrays.asList(1,3));
 
     private Tournament tournament;
@@ -43,10 +41,12 @@ public class HelloController {
         if(tournament.getListCountries().size() > 0){
             this.choiceCountry.setItems(FXCollections.observableArrayList(tournament.getListCountries()));
         }
-        minutesOfTheDay.add(1);
-        minutesOfTheDay.add(2);
-        System.out.println(minutesOfTheDay);
-        this.choiceboxMatchTimeMinute.setItems(FXCollections.observableArrayList(minutesOfTheDay));
+//        this.minutesOfTheDay.add(1);
+//        this.minutesOfTheDay.add(2);
+        System.out.println(this.minutesOfTheDay);
+
+        // BELOW THIS - Uncommented it bc it crashes when it isnt
+//        this.choiceboxMatchTimeMinute.setItems(FXCollections.observableArrayList(this.minutesOfTheDay));
 
 
     }
@@ -55,23 +55,19 @@ public class HelloController {
      * TODO Figure out what is going on with the time part of the date: use LocalDateTime? A new var for time?
      */
     public void addMatch(ActionEvent actionEvent){
-//        this.dropdownMatchTimeHour.setItems(FXCollections.observableArrayList(hoursOfTheDay));
-//        this.dropdownMatchTimeMinute.setItems(FXCollections.observableArrayList(minutesOfTheDay));
-
-
         LocalDate localDate = this.datePickerMatch.getValue();
-        LocalDateTime localDateTime = localDate.atTime(04, 30, 56);
+        LocalDateTime localDateTime = localDate.atTime(4, 30, 56);
         // What line below will have for var 2 and 3 // this.choiceMatchTeamA.getValue().getTeamName(), this.choiceMatchTeamB.getValue().getTeamName())
         tournament.addMatch(localDateTime, "Uganda", "Ireland");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Match Added Successfully");
         alert.show();
     }
 
-    public void addCourse(ActionEvent actionEvent) {
+    /*public void addCourse(ActionEvent actionEvent) {
     }
 
     public void listStudentsAndCourses(Event event) {
-    }
+    }*/
 
     public void addCountry(ActionEvent actionEvent) {
         try {
@@ -99,6 +95,13 @@ public class HelloController {
         }
     }
 
-    public void addTeamA(ActionEvent actionEvent) {
+
+
+    /*public void addTeamA(ActionEvent actionEvent) {
+    }*/
+
+    public void assignRefereetoMatch(ActionEvent actionEvent) {
+        System.out.println("assign ref");
+//        tournament.g;
     }
 }
