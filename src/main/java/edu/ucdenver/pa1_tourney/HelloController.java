@@ -61,8 +61,9 @@ public class HelloController {
     public void addTeam(ActionEvent actionEvent) {
         try{
             tournament.addTeam(txtTeamNameField.getText(), choiceCountry.getValue().getCountryName());
-            // clear input here
+            txtTeamNameField.setText("");
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Team Added Successfully");
+            comboTeam.setItems(FXCollections.observableArrayList(tournament.getTeams()));
             alert.show();
         }
         catch(IllegalArgumentException iae){
@@ -74,6 +75,7 @@ public class HelloController {
     public void addReferee(ActionEvent actionEvent) {
         try {
             tournament.addReferee(txtRefereeName.getText(), choiceCountryForRef.getValue().getCountryName());
+            txtRefereeName.setText("");
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Referee Added Successfully");
             alert.show();
         }
@@ -81,6 +83,13 @@ public class HelloController {
             Alert alert = new Alert(Alert.AlertType.ERROR, iae.getMessage());
             alert.show();
         }
+    }
+
+    private void clearPlayerBoxes(){
+        txtPlayerAge.setText("");
+        txtPlayerHeight.setText("");
+        txtPlayerName.setText("");
+        txtPlayerWidth.setText("");
     }
 
 
@@ -92,6 +101,7 @@ public class HelloController {
             double playerWeight = Double.parseDouble(txtPlayerWidth.getText());
             double playerHeight = Double.parseDouble(txtPlayerHeight.getText());
             tournament.addPlayer(team.getTeamName(), playerName, playerAge, playerHeight, playerWeight);
+            clearPlayerBoxes();
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Player Added Successfully");
             alert.show();
 

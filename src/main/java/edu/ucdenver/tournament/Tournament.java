@@ -191,4 +191,7 @@ public class Tournament {
     }
 
 
+    public ArrayList<Team> getTeams() {
+        return listTeams;
+    }
 }
