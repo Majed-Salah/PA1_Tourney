@@ -4,7 +4,7 @@ import java.util.List;
 
 public class LineUp {
     List<Player> listOfPlayers;
-    Team team; // not sure about this
+    private Team team; // not sure about this
 
     public LineUp(Team team){
         this.team = team;

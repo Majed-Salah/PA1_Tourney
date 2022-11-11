@@ -29,4 +29,9 @@ public class Team {
     public ArrayList<Player> getSquad(){
         return squad;
     }
+
+    @Override
+    public String toString(){
+        return name;
+    }
 }

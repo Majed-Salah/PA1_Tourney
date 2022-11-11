@@ -12,8 +12,8 @@ public class Match {
     private ArrayList<Referee> matchReferees;
     private Team teamA;
     private Team teamB;
-    private LineUp lineUpA = new LineUp(teamA);
-    private LineUp lineUpB = new LineUp(teamB);
+    private LineUp lineUpA;
+    private LineUp lineUpB;
 
     /**
      * Match Class Constructor:
@@ -22,6 +22,9 @@ public class Match {
         this.dateTime = dateTime;
         this.teamA = teamA;
         this.teamB = teamB;
+        this.lineUpA= new LineUp(this.teamA);
+        this.lineUpB= new LineUp(this.teamB);
+        this.matchReferees = new ArrayList<>();
     }
 
     /**
@@ -42,6 +45,7 @@ public class Match {
      * isUpcoming Function:
      */
     public boolean isUpcoming(){
+        System.out.println("PRINTING ISUPCOMING: Is " + LocalDateTime.now()+ " before " + this.dateTime + "???");
         return LocalDateTime.now().isBefore(this.dateTime);
     }
 
@@ -91,4 +95,9 @@ public class Match {
         return dateTime;
     }
 
+    @Override
+    public String toString(){
+
+        return this.teamA.getTeamName() + " vs " + this.teamB.getTeamName() + " (" + this.dateTime.toLocalDate() + " @ " +   this.dateTime.toLocalTime() + ")";
+    }
 }

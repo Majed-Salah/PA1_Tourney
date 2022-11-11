@@ -1,5 +1,7 @@
 package edu.ucdenver.tournament;
 
+import javafx.scene.control.Alert;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -13,6 +15,8 @@ public class Tournament {
     private ArrayList<Country> participatingCountries;
     private ArrayList<Referee> listReferees;
     private ArrayList<Match> listMatches;
+    private ArrayList <Match> upcomingMatches;
+    private ArrayList<String> dropDownTeams ;
 
     public Tournament(String name, LocalDateTime startDate, LocalDateTime endDate){
         this.name = name;
@@ -22,6 +26,8 @@ public class Tournament {
         this.participatingCountries = new ArrayList<>();
         this.listReferees = new ArrayList<>();
         this.listMatches = new ArrayList<>();
+        this.upcomingMatches = new ArrayList<>();
+        this.dropDownTeams = new ArrayList<>();
     }
 
     public void addTeam(String name, String country){
@@ -51,21 +57,19 @@ public class Tournament {
     }
 
     public void addReferee(String name, String country) throws IllegalArgumentException{
-        Country c = null;
-        for(Country count: participatingCountries){
-            if(count.getCountryName().equals(name)){
-                c = count;
-            }
-        }
-        for(Referee referee: listReferees){
-            if(referee.getName().equals(name)){
-                throw new IllegalArgumentException();
-            }
-            else{
-                Referee ref = new Referee(name, c);
+        Country country1 = new Country(country);
+        Referee ref = new Referee(name, country1); // create a new ref
+        try {
+            if (!listReferees.contains(ref)) {
                 listReferees.add(ref);
+                System.out.println("Ref Added to listReferees");
             }
         }
+        catch (IllegalArgumentException iae){
+            throw new RuntimeException(iae);
+        }
+
+        System.out.println("Great Sucess : " + listReferees);
     }
 
     public void addPlayer(String teamName, String playerName, int age, double height, double weight){
@@ -101,23 +105,19 @@ public class Tournament {
 
     public void addRefereeToMatch(LocalDateTime dateTime, String refereeName){
         String refsCountry = "";
-
-        for (Referee ref : listReferees){                       // parse through referee list
-            if (ref.getName().equals(refereeName)){             // if ref name in list -> ref found
-                refsCountry = ref.getCountry().getCountryName();// save the name of the refs country
-
-                for (Match m : listMatches){                    // now that we have a ref, parse thorough matches
-                    if (m.getReferees().size() < 4){            // only do something if there is less than 4 refs
-                        if (m.getDate() == dateTime) {          // since a ref can be added, lets find the match with date given
-
-                            // Make sure the ref is not from either of their countries
-                            if (!refsCountry.equals(m.getTeamA().getTeam().getCountry().getCountryName()) ||
+        for (Referee ref : listReferees){                                   // parse through referee list
+            if (ref.getName().equals(refereeName)){                         // if ref name in list -> ref found
+                refsCountry = ref.getCountry().getCountryName();            // save the name of the refs country
+                for (Match m : listMatches){                                // now that we have a ref, parse thorough matches
+                        if (m.getDate().equals(dateTime)) {                 // since a ref can be added, lets find the match with date given
+                            if (!refsCountry.equals(m.getTeamA().getTeam().getCountry().getCountryName()) || // Make sure the ref is not from either of their countries
                                     !refsCountry.equals(m.getTeamB().getTeam().getCountry().getCountryName())){
-                                m.addReferee(ref);              // add the referee to the match
+                                m.addReferee(ref);                          // add the referee to the match
+                                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Referees Assigned Successfully: " + m.getReferees());
+                                alert.show();
                                 break;
                             }
                         }
-                    }
                 }
             }
         }
@@ -157,15 +157,24 @@ public class Tournament {
     }
 
     public ArrayList<Match> getUpcomingMatches(){
-        ArrayList<Match> upcomingMatches = new ArrayList<>();
         for(Match match: listMatches){
             if(match.isUpcoming()){
+                System.out.println("Upcoming Match Found!");
                 upcomingMatches.add(match);
+                System.out.println("Upcoming ADDED");
             }
         }
-
         return upcomingMatches;
+    }
 
+    public ArrayList<String> getUpcomingMatchesToString(){
+        ArrayList<String> upcomingMatchesToString = new ArrayList<>();
+        for(Match match: listMatches){
+            if(match.isUpcoming()){
+                upcomingMatchesToString.add(match.toString());
+            }
+        }
+        return upcomingMatchesToString;
     }
 
     public ArrayList<Match> getMatchesOn(LocalDate matchDate){
@@ -192,10 +201,9 @@ public class Tournament {
                 teamMatches.add(match);
             }
         }
-
         return teamMatches;
-
     }
+
 
     public ArrayList<LineUp> getMatchLineUps(LocalDateTime matchDate){
         ArrayList<LineUp> matchLineUp = new ArrayList<>();
@@ -205,14 +213,33 @@ public class Tournament {
                 matchLineUp.add(match.getTeamB());
             }
         }
-
         return matchLineUp;
-
     }
 
     public ArrayList<Country> getListCountries(){
         return participatingCountries;
     }
+
+
+    public ArrayList<Match> getAllMatches(){
+        return listMatches;
+    }
+
+    public ArrayList<String> getAllTeamsToString(){
+        for (Team t : listTeams) {
+            dropDownTeams.add(t.toString());
+        }
+        return dropDownTeams;
+    }
+
+    public ArrayList<Referee> getAllReferees(){
+        return listReferees;
+    }
+
+
+
+
+
 
 
 }
