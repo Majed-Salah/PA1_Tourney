@@ -1,9 +1,10 @@
 package edu.ucdenver.tournament;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LineUp {
-    List<Player> listOfPlayers;
+    List<Player> listOfPlayers = new ArrayList<>();
     private Team team; // not sure about this
 
     public LineUp(Team team){

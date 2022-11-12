@@ -28,4 +28,9 @@ public class Player {
     public double getWeight() {
         return weight;
     }
+
+    @Override
+    public String toString(){
+        return this.name + " - Age: " + age + ", Height: " + height + ", Weight:" + weight;
+    }
 }
