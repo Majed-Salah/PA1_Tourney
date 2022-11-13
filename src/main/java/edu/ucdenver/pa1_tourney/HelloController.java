@@ -56,7 +56,7 @@ public class HelloController {
 
 
     private ArrayList<String> countryNames = new ArrayList<>();
-
+    private int count = 0;
 
     public HelloController(){
         this.tournament = new Tournament("Soccer Tournament", LocalDateTime.now(), LocalDateTime.now());
@@ -66,6 +66,17 @@ public class HelloController {
         if(tournament.getListCountries().size() > 0){
             this.choiceCountry.setItems(FXCollections.observableArrayList(tournament.getListCountries()));
         }
+
+        /*if (count == 0 ){
+            LocalDateTime stubTime = LocalDateTime.of(2022,11,12,22,22,22);
+            this.tournament.addCountry("USA");
+            this.tournament.addCountry("UK");
+            this.tournament.addTeam("Chicago Fire", "USA");
+            this.tournament.addTeam("Real Madrid", "UK");
+            this.tournament.addMatch(stubTime, "Chicago Fire", "Real Madrid");
+            count+= 1;
+        }*/
+
     }
     /**
      * addMatch Function:
@@ -147,6 +158,7 @@ public class HelloController {
         LocalDateTime localDateTime = matchChosen.getDate();
 
         for (Match m : tournament.getUpcomingMatches()) {
+            System.out.println("Upcoming Matches: " + tournament.getUpcomingMatches());
             System.out.println("m.getDate() = " + m.getDate() + ", localDateTime = " + localDateTime);
             if (m.getDate().equals(localDateTime)) { // found match with date
                 System.out.println("Found match with dateTime (" + localDateTime + "), adding referees to match");
@@ -212,10 +224,10 @@ public class HelloController {
     public void updateMatchScore(ActionEvent actionEvent) {
         if (comboboxSelectMatchToSetScore.getValue().getDate().isAfter(LocalDateTime.now())){ // in the past
             comboboxSelectMatchToSetScore.getValue().setMatchScore(Integer.parseInt(textfieldTeamAMatchScore.getText()), Integer.parseInt(textfieldTeamBMatchScore.getText()));
-            System.out.println("Match Score was TeamA(" + Integer.parseInt(textfieldTeamAMatchScore.getText() + ") - TeamB( " + Integer.parseInt(textfieldTeamBMatchScore.getText()) + ")" ));
+            System.out.println("Match Score was TeamA(" + textfieldTeamAMatchScore.getText() + ") - TeamB(" + textfieldTeamBMatchScore.getText() + ")" );
         }
         else {
-            System.out.println("[ERROR] Match has not occured yet");
+            System.out.println("[ERROR] Match has not occurred yet");
         }
     }
 }

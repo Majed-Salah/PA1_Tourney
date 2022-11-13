@@ -40,6 +40,7 @@ public class Tournament {
             }
             Team team = new Team(name, teamCountry);
             listTeams.add(team);
+            System.out.println("AddTeam Teams List: " + listTeams);
         }
         catch(Exception e){
             System.err.println("Country not participating: " + e);
@@ -83,20 +84,14 @@ public class Tournament {
     }
 
     public void addMatch(LocalDateTime dateTime, String teamAName, String teamBName){
-        Team teamA = null;
-        Team teamB = null;
+        Team teamA = getTeamWithName(teamAName);
+        Team teamB = getTeamWithName(teamBName);
+        int matchCount = 0;
+        Match newMatch = new Match(dateTime, teamA, teamB);
 
-        for(Team t: listTeams){
-            if(t.getTeamName().equals(teamAName)){
-                teamA = t;
-            }
-            if(t.getTeamName().equals(teamBName)){
-                teamB = t;
-            }
+        if (!listMatches.contains(newMatch)){                 // if match request is not in list teams
+            listMatches.add(newMatch);
         }
-
-        Match match = new Match(dateTime, teamA, teamB);
-        listMatches.add(match);
     }
 
     /* Four referees are required for a match to take place.
@@ -105,17 +100,22 @@ public class Tournament {
 
     public void addRefereeToMatch(LocalDateTime dateTime, String refereeName){
         String refsCountry = "";
+
         for (Referee ref : listReferees){                                   // parse through referee list
             if (ref.getName().equals(refereeName)){                         // if ref name in list -> ref found
                 refsCountry = ref.getCountry().getCountryName();            // save the name of the refs country
+
                 for (Match m : listMatches){                                // now that we have a ref, parse thorough matches
+                    System.out.println("Match for");
                         if (m.getDate().equals(dateTime)) {                 // since a ref can be added, lets find the match with date given
                             if (!refsCountry.equals(m.getTeamA().getTeam().getCountry().getCountryName()) || // Make sure the ref is not from either of their countries
                                     !refsCountry.equals(m.getTeamB().getTeam().getCountry().getCountryName())){
-                                m.addReferee(ref);                          // add the referee to the match
-                                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Referees Assigned Successfully: " + m.getReferees());
-                                alert.show();
-                                break;
+                                if (!m.getReferees().contains(ref)){
+                                    m.addReferee(ref);                          // add the referee to the match
+                                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Referee Assigned: " + ref);
+                                    alert.show();
+                                    break;
+                                }
                             }
                         }
                 }
@@ -158,7 +158,7 @@ public class Tournament {
 
     public ArrayList<Match> getUpcomingMatches(){
         for(Match match: listMatches){
-            if(match.isUpcoming()){
+            if (!upcomingMatches.contains(match) && match.isUpcoming()){
                 System.out.println("Upcoming Match Found!");
                 upcomingMatches.add(match);
                 System.out.println("Upcoming ADDED");
@@ -234,6 +234,16 @@ public class Tournament {
 
     public ArrayList<Referee> getAllReferees(){
         return listReferees;
+    }
+
+    public Team getTeamWithName(String teamName){
+        for (Team t : listTeams){
+            if (t.getTeamName().equals(teamName)){
+                return t;
+            }
+        }
+        System.out.println("No team with name found (name is " + teamName + ")");
+        return null;
     }
 
 

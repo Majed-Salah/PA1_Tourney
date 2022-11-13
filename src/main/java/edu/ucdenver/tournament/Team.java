@@ -30,6 +30,7 @@ public class Team {
         return squad;
     }
 
+
     @Override
     public String toString(){
         return name;

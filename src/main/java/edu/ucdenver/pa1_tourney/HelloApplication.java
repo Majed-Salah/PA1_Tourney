@@ -17,6 +17,8 @@ public class HelloApplication extends Application {
         stage.setTitle(String.valueOf(LocalDateTime.now()));
         stage.setScene(scene);
         stage.show();
+        LocalDateTime stubTime = LocalDateTime.of(2022,11,12,22,22,22);
+
     }
 
     public static void main(String[] args) {
