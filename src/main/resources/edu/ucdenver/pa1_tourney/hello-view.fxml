@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
@@ -32,191 +29,6 @@
         </GridPane>
         <TabPane prefHeight="720.0" prefWidth="1080.0" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1">
             <tabs>
-                <Tab text="Tournamet Setup">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="674.0" prefWidth="1080.0">
-                            <children>
-                                <ListView fx:id="courseListSide111" layoutX="58.0" layoutY="124.0" prefHeight="474.0" prefWidth="399.0" />
-                                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="66.0" layoutY="26.0" prefHeight="57.0" prefWidth="378.0" text="All Teams" textAlignment="CENTER" textFill="#3e8ec7">
-                                    <font>
-                                        <Font size="46.0" />
-                                    </font>
-                                </Label>
-                                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="58.0" layoutY="83.0" prefHeight="33.0" prefWidth="393.0" text="Choose the Teams you would like in the Tournamnet" textAlignment="CENTER">
-                                    <font>
-                                        <Font size="18.0" />
-                                    </font>
-                                </Label>
-                                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="588.0" layoutY="26.0" prefHeight="57.0" prefWidth="437.0" text="Teams in Tournament" textAlignment="CENTER" textFill="#3e8ec7">
-                                    <font>
-                                        <Font size="46.0" />
-                                    </font>
-                                </Label>
-                                <Button fx:id="btnAddCourse" layoutX="345.0" layoutY="610.0" mnemonicParsing="false" onAction="#addCourse" text="Select All Teams" />
-                                <ListView fx:id="courseListSide1111" layoutX="612.0" layoutY="128.0" prefHeight="474.0" prefWidth="399.0" />
-                                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="620.0" layoutY="82.0" prefHeight="33.0" prefWidth="393.0" text="Current Enlisted Teams" textAlignment="CENTER">
-                                    <font>
-                                        <Font size="18.0" />
-                                    </font>
-                                </Label>
-                                <Button fx:id="btnAddCourse1" layoutX="494.0" layoutY="348.0" mnemonicParsing="false" onAction="#addCourse" text="Add Team(s)" />
-                            </children>
-                        </AnchorPane>
-                    </content>
-                </Tab>
-                <Tab text="Matches">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                            <children>
-                                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="155.0" layoutY="25.0" prefHeight="57.0" prefWidth="174.0" text="Matches" textFill="#3e8ec7">
-                                    <font>
-                                        <Font size="46.0" />
-                                    </font>
-                                </Label>
-                                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="153.0" layoutY="82.0" prefHeight="33.0" prefWidth="425.0" text="Pair up teams up two for each Match in the Tournament" textAlignment="CENTER">
-                                    <font>
-                                        <Font size="18.0" />
-                                    </font>
-                                </Label>
-                                <GridPane layoutX="149.0" layoutY="124.0" prefHeight="526.0" prefWidth="609.0">
-                                    <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="239.0" minWidth="10.0" prefWidth="124.18940734863281" />
-                                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="425.72071838378906" minWidth="10.0" prefWidth="250.8105926513672" />
-                                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="423.0995178222656" minWidth="10.0" prefWidth="248.3466796875" />
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    </rowConstraints>
-                                    <children>
-                                        <Label GridPane.rowIndex="4">
-                                            <font>
-                                                <Font size="18.0" />
-                                            </font>
-                                        </Label>
-                                        <Label GridPane.rowIndex="4" />
-                                        <Label GridPane.rowIndex="5" />
-                                        <ChoiceBox fx:id="ChoiceCourseSubject" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                        <Label text="Team A" GridPane.columnIndex="1">
-                                            <font>
-                                                <Font size="18.0" />
-                                            </font>
-                                        </Label>
-                                        <ChoiceBox fx:id="ChoiceCourseSubject1" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                                        <Label GridPane.rowIndex="4" />
-                                        <Label text="Team B" GridPane.columnIndex="2">
-                                            <font>
-                                                <Font size="18.0" />
-                                            </font>
-                                        </Label>
-                                        <Label text="Match #1" GridPane.rowIndex="2">
-                                            <font>
-                                                <Font size="18.0" />
-                                            </font>
-                                        </Label>
-                                        <Label text="Match #3" GridPane.rowIndex="4">
-                                            <font>
-                                                <Font size="18.0" />
-                                            </font>
-                                        </Label>
-                                        <Label text="Match #2" GridPane.rowIndex="3">
-                                            <font>
-                                                <Font size="18.0" />
-                                            </font>
-                                        </Label>
-                                        <Label text="Match #4" GridPane.rowIndex="5">
-                                            <font>
-                                                <Font size="18.0" />
-                                            </font>
-                                        </Label>
-                                        <Label text="Match #6" GridPane.rowIndex="7">
-                                            <font>
-                                                <Font size="18.0" />
-                                            </font>
-                                        </Label>
-                                        <Label text="Match #5" GridPane.rowIndex="6">
-                                            <font>
-                                                <Font size="18.0" />
-                                            </font>
-                                        </Label>
-                                        <Label prefHeight="23.0" prefWidth="80.0" text="Match #8" GridPane.rowIndex="9">
-                                            <font>
-                                                <Font size="18.0" />
-                                            </font>
-                                        </Label>
-                                        <Label prefHeight="23.0" prefWidth="82.0" text="Match #7" GridPane.rowIndex="8">
-                                            <font>
-                                                <Font size="18.0" />
-                                            </font>
-                                        </Label>
-                                        <Label prefHeight="0.0" prefWidth="71.0" text="Match #1" GridPane.rowIndex="1">
-                                            <font>
-                                                <Font size="18.0" />
-                                            </font>
-                                        </Label>
-                                        <ChoiceBox fx:id="ChoiceCourseSubject2" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                        <ChoiceBox fx:id="ChoiceCourseSubject21" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                        <ChoiceBox fx:id="ChoiceCourseSubject211" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                        <ChoiceBox fx:id="ChoiceCourseSubject2111" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                        <ChoiceBox fx:id="ChoiceCourseSubject21111" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                                        <ChoiceBox fx:id="ChoiceCourseSubject211111" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                                        <ChoiceBox fx:id="ChoiceCourseSubject2111111" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                                        <ChoiceBox fx:id="ChoiceCourseSubject21111111" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                                        <ChoiceBox fx:id="ChoiceCourseSubject21111112" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                        <ChoiceBox fx:id="ChoiceCourseSubject211111121" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                                        <ChoiceBox fx:id="ChoiceCourseSubject2111111211" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                                        <ChoiceBox fx:id="ChoiceCourseSubject2111111212" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                                        <ChoiceBox fx:id="ChoiceCourseSubject2111111213" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-                                        <ChoiceBox fx:id="ChoiceCourseSubject2111111214" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-                                        <ChoiceBox fx:id="ChoiceCourseSubject2111111215" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="8" />
-                                        <ChoiceBox fx:id="ChoiceCourseSubject2111111216" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="9" />
-                                    </children>
-                                </GridPane>
-                                <Button fx:id="btnAddCourse2" layoutX="889.0" layoutY="374.0" mnemonicParsing="false" onAction="#addCourse" text="Finalize Teams" />
-                            </children>
-                        </AnchorPane>
-                    </content>
-                </Tab>
-                <Tab fx:id="listEnrollment1" onSelectionChanged="#listStudentsAndCourses" text="Choose LineUp">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                            <children>
-                                <ListView fx:id="studentListSide1" layoutX="657.0" layoutY="128.0" prefHeight="485.0" prefWidth="388.0" />
-                                <ListView fx:id="courseListSide1" layoutX="42.0" layoutY="130.0" prefHeight="474.0" prefWidth="399.0" />
-                                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="662.0" layoutY="42.0" prefHeight="57.0" prefWidth="378.0" text="Choose Players" textAlignment="CENTER" textFill="#3e8ec7">
-                                    <font>
-                                        <Font size="46.0" />
-                                    </font>
-                                </Label>
-                                <ComboBox layoutX="472.0" layoutY="319.0" prefWidth="150.0" promptText="Pick a Team" />
-                                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="662.0" layoutY="94.0" prefHeight="33.0" prefWidth="378.0" text="There are 11 Players per LineUp" textAlignment="CENTER">
-                                    <font>
-                                        <Font size="18.0" />
-                                    </font>
-                                </Label>
-                                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="56.0" layoutY="42.0" prefHeight="57.0" prefWidth="378.0" text="Matches" textAlignment="CENTER" textFill="#3e8ec7">
-                                    <font>
-                                        <Font size="46.0" />
-                                    </font>
-                                </Label>
-                                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="48.0" layoutY="99.0" prefHeight="33.0" prefWidth="393.0" text="Choose a Match and Pick a team  to add Players to" textAlignment="CENTER">
-                                    <font>
-                                        <Font size="18.0" />
-                                    </font>
-                                </Label>
-                                <Button fx:id="btnAddCourse21" layoutX="799.0" layoutY="621.0" mnemonicParsing="false" onAction="#addCourse" text="Save LineUp" />
-                            </children>
-                        </AnchorPane>
-                    </content>
-                </Tab>
             <Tab text="Add Countries">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -241,9 +53,9 @@
                               <Font size="36.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="txtTeamNameField" layoutX="330.0" layoutY="164.0" prefHeight="40.0" prefWidth="303.0" />
-                        <Button fx:id="btnAddTeam" layoutX="502.0" layoutY="240.0" mnemonicParsing="false" onAction="#addTeam" text="Add Teams" />
-                        <ChoiceBox fx:id="choiceCountry" layoutX="684.0" layoutY="172.0" prefWidth="150.0" />
+                        <TextField fx:id="txtTeamNameField" layoutX="388.0" layoutY="170.0" prefHeight="40.0" prefWidth="303.0" />
+                        <Button fx:id="btnAddTeam" layoutX="500.0" layoutY="355.0" mnemonicParsing="false" onAction="#addTeam" text="Add Teams" />
+                        <TextField fx:id="txtCountryChoice" layoutX="399.0" layoutY="253.0" prefHeight="47.0" prefWidth="282.0" />
                      </children>
                   </AnchorPane>
                </content>
@@ -258,9 +70,9 @@
                            </font>
                         </Label>
                         <TextField fx:id="txtRefereeName" layoutX="330.0" layoutY="164.0" prefHeight="40.0" prefWidth="303.0" />
-                        <Button fx:id="btnAddReferee" layoutX="498.0" layoutY="240.0" mnemonicParsing="false" onAction="#addReferee" text="Add Referee" />
-                        <ChoiceBox fx:id="choiceCountryForRef" layoutX="684.0" layoutY="172.0" prefWidth="150.0" />
+                        <Button fx:id="btnAddReferee" layoutX="498.0" layoutY="318.0" mnemonicParsing="false" onAction="#addReferee" text="Add Referee" />
                         <Label layoutX="238.0" layoutY="177.0" text="Referee Name:" />
+                        <TextField fx:id="txtCountryReferee" layoutX="460.0" layoutY="233.0" />
                      </children>
                   </AnchorPane>
                </content>
@@ -292,7 +104,6 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <ComboBox fx:id="comboTeam" prefHeight="26.0" prefWidth="182.0" promptText="Choose Player's Team" GridPane.columnIndex="1" />
                               <TextField fx:id="txtPlayerName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <Label text="Age:" GridPane.rowIndex="2">
                                  <font>
@@ -312,6 +123,7 @@
                               </Label>
                               <TextField fx:id="txtPlayerHeight" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <TextField fx:id="txtPlayerWidth" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <TextField fx:id="txtTeamNamePlayer" GridPane.columnIndex="1" />
                            </children>
                         </GridPane>
                         <Label layoutX="38.0" layoutY="52.0" text="Add Player to Team" textFill="#1cc3bd">
@@ -319,7 +131,7 @@
                               <Font size="36.0" />
                            </font>
                         </Label>
-                        <Button fx:id="btnAddPlayerToTeam" layoutX="478.0" layoutY="495.0" mnemonicParsing="false" onAction="#addPlayerToTeam" text="Add Player to Team" />
+                        <Button fx:id="btnAddPlayerToTeam" layoutX="478.0" layoutY="495.0" mnemonicParsing="false" onAction="#addPlayer" text="Add Player to Team" />
                      </children>
                   </AnchorPane>
               </content>

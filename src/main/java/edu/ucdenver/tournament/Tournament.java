@@ -1,10 +1,12 @@
 package edu.ucdenver.tournament;
 
+import java.io.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 
-public class Tournament {
+public class Tournament implements Serializable {
     private String name;
     private LocalDate startDate;
     private LocalDate endDate;
@@ -12,6 +14,7 @@ public class Tournament {
     private ArrayList<Country> participatingCountries;
     private ArrayList<Referee> listReferees;
     private ArrayList<Match> listMatches;
+    public static final String filename = "./tournament.ser";
 
     public Tournament(String name, LocalDate startDate, LocalDate endDate){
         this.name = name;
@@ -77,7 +80,7 @@ public class Tournament {
         team.addPlayer(playerName, age, height, weight);
     }
 
-    public void addMatch(LocalDate dateTime, String teamAName, String teamBName){
+    public void addMatch(LocalDateTime dateTime, String teamAName, String teamBName){
         Team teamA = null;
         Team teamB = null;
 
@@ -94,12 +97,12 @@ public class Tournament {
         listMatches.add(match);
     }
 
-    public void addRefereeToMatch(LocalDate dateTime, String refereeName){
+    public void addRefereeToMatch(LocalDateTime dateTime, String refereeName){
         Match match = null;
 
     }
 
-    public void addPlayerToMatch(LocalDate dateTime, String teamName, String playerName){
+    public void addPlayerToMatch(LocalDateTime dateTime, String teamName, String playerName){
         Team team = null;
         Player player = null;
 
@@ -122,7 +125,7 @@ public class Tournament {
 
     }
 
-    public void setMatchScore(LocalDate matchDate, int team1Score, int team2Score){
+    public void setMatchScore(LocalDateTime matchDate, int team1Score, int team2Score){
         Match m = null;
         for(Match match: listMatches){
             if(match.getDate() == matchDate){
@@ -144,7 +147,7 @@ public class Tournament {
 
     }
 
-    public ArrayList<Match> getMatchesOn(LocalDate matchDate){
+    public ArrayList<Match> getMatchesOn(LocalDateTime matchDate){
         ArrayList<Match> dateMatches = new ArrayList<>();
 
         int year = matchDate.getYear();
@@ -173,7 +176,7 @@ public class Tournament {
 
     }
 
-    public ArrayList<LineUp> getMatchLineUps(LocalDate matchDate){
+    public ArrayList<LineUp> getMatchLineUps(LocalDateTime matchDate){
         ArrayList<LineUp> matchLineUp = new ArrayList<>();
         for(Match match: listMatches){
             if(match.getDate() == matchDate){
@@ -193,5 +196,55 @@ public class Tournament {
 
     public ArrayList<Team> getTeams() {
         return listTeams;
+    }
+
+    public void saveToFile(){
+
+        ObjectOutputStream oos = null;
+
+        try{
+            oos = new ObjectOutputStream(new FileOutputStream(filename));
+            oos.writeObject(this);
+        }
+        catch (IOException ioe){
+            ioe.printStackTrace();
+
+        }
+        finally{
+            if(oos != null){
+                try{
+                    oos.close();
+                }
+                catch (IOException ioe){
+                    ioe.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static Tournament loadFromFile() throws FileNotFoundException{
+        ObjectInputStream ois = null;
+        Tournament tournament = null;
+
+        try{
+            ois = new ObjectInputStream(new FileInputStream(Tournament.filename));
+            tournament = (Tournament) ois.readObject();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new FileNotFoundException("Missing file to load");
+        }
+        finally{
+            if (ois != null){
+                try{
+                    ois.close();
+                }
+                catch (IOException ioe){
+                    ioe.printStackTrace();
+                }
+            }
+        }
+
+        return tournament;
     }
 }
