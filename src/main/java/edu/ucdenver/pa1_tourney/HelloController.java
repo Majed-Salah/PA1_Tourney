@@ -11,6 +11,8 @@ import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import edu.ucdenver.client.Client;
@@ -31,6 +33,10 @@ public class HelloController {
     public TextField txtTeamNamePlayer;
     public TextField txtCountryReferee;
     public TextField txtCountryChoice;
+    public DatePicker dateMatchDate;
+    public TextField txtMatchTime;
+    public TextField txtTeam1Match;
+    public TextField txtTeam2Match;
     private Tournament tournament;
     private ArrayList<String> countryNames = new ArrayList<>();
     private ArrayList<Integer> nums = new ArrayList<>(Arrays.asList(1, 3));
@@ -53,26 +59,27 @@ public class HelloController {
 
     }
 
+    public String[] parseResponse(String msg){
+        return msg.split("\\|");
+    }
+
     public void addCountry(ActionEvent actionEvent) {
 
         try {
-/*            this.tournament.addCountry(this.txtCountryField.getText());
-            countryNames.add(this.txtCountryField.getText());
-            this.choiceCountry.setItems(FXCollections.observableArrayList(tournament.getListCountries()));
-            this.choiceCountryForRef.setItems(FXCollections.observableArrayList(tournament.getListCountries()));*/
 
-            try {
-                client.sendRequest("C|" + this.txtCountryField.getText());
+            String[] handledMessage = parseResponse(client.sendRequest("C|" + this.txtCountryField.getText()));
+            if(handledMessage[0].equals("0")){
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Country Added Successfully");
+                alert.show();
             }
-            catch (IOException ioe){
-                System.err.println(ioe);
+            else{
+                Alert alert = new Alert(Alert.AlertType.ERROR, handledMessage[2]);
+                alert.show();
             }
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Country Added Successfully");
-            alert.show();
         }
-        catch(IllegalArgumentException iae){
-            Alert alert = new Alert(Alert.AlertType.ERROR, iae.getMessage());
+        catch(Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.show();
         }
 
@@ -80,42 +87,40 @@ public class HelloController {
 
     public void addTeam(ActionEvent actionEvent) {
         try{
-/*            tournament.addTeam(txtTeamNameField.getText(), choiceCountry.getValue().getCountryName());
-            txtTeamNameField.setText("");*/
 
-            try{
-                client.sendRequest("D|" + txtTeamNameField.getText() + "|" + txtCountryChoice.getText());
+            String[] handledMessage = parseResponse(client.sendRequest("D|" + txtTeamNameField.getText() + "|" + txtCountryChoice.getText()));
+            if(handledMessage[0].equals("0")){
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Team Added Successfully");
+                alert.show();
             }
-            catch(IOException ioe){
-                System.err.println(ioe);
+            else{
+                Alert alert = new Alert(Alert.AlertType.ERROR, handledMessage[2]);
+                alert.show();
             }
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Team Added Successfully");
-            alert.show();
         }
-        catch(IllegalArgumentException iae){
-            Alert alert = new Alert(Alert.AlertType.ERROR, iae.getMessage());
+        catch(Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.show();
         }
     }
 
     public void addReferee(ActionEvent actionEvent) {
         try {
-/*            tournament.addReferee(txtRefereeName.getText(), choiceCountryForRef.getValue().getCountryName());
-            txtRefereeName.setText("");*/
 
-            try{
-                client.sendRequest("R|" + txtRefereeName.getText() + "|" + txtCountryReferee.getText());
+            String[] handledResponse = parseResponse(client.sendRequest("R|" + txtRefereeName.getText() + "|" + txtCountryReferee.getText()));
+            if(handledResponse[0].equals("0")){
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Referee Added Successfully");
+                alert.show();
             }
-            catch(IOException ioe){
-                System.err.println(ioe);
+            else{
+                Alert alert = new Alert(Alert.AlertType.ERROR, handledResponse[2]);
+                alert.show();
             }
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Referee Added Successfully");
-            alert.show();
         }
-        catch(IllegalArgumentException iae){
-            Alert alert = new Alert(Alert.AlertType.ERROR, iae.getMessage());
+        catch(Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.show();
         }
     }
@@ -131,32 +136,58 @@ public class HelloController {
 
     public void addPlayer(ActionEvent actionEvent) {
         try{
-/*            Team team = comboTeam.getValue();
-            String playerName = txtPlayerName.getText();
-            int playerAge = Integer.parseInt(txtPlayerAge.getText());
-            double playerWeight = Double.parseDouble(txtPlayerWidth.getText());
-            double playerHeight = Double.parseDouble(txtPlayerHeight.getText());
-            tournament.addPlayer(team.getTeamName(), playerName, playerAge, playerHeight, playerWeight);*/
 
-            try{
-                String teamName = txtTeamNamePlayer.getText();
-                String playerName = txtPlayerName.getText();
-                String playerAge = txtPlayerAge.getText();
-                String playerWeight = txtPlayerWidth.getText();
-                String playerHeight = txtPlayerHeight.getText();
-                client.sendRequest("P|" + teamName + "|" + playerName + "|" + playerAge + "|" + playerHeight + "|" + playerWeight);
+            String teamName = txtTeamNamePlayer.getText();
+            String playerName = txtPlayerName.getText();
+            String playerAge = txtPlayerAge.getText();
+            String playerWeight = txtPlayerWidth.getText();
+            String playerHeight = txtPlayerHeight.getText();
+            String[] handledMessage = parseResponse(client.sendRequest("P|" + teamName + "|" + playerName + "|" + playerAge + "|" + playerHeight + "|" + playerWeight));
+
+            if(handledMessage[0].equals("0")){
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Player Added Successfully");
+                alert.show();
             }
-            catch(IOException ioe){
-                System.err.println(ioe);
+            else{
+                Alert alert = new Alert(Alert.AlertType.ERROR, handledMessage[2]);
+                alert.show();
             }
 
             clearPlayerBoxes();
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Player Added Successfully");
-            alert.show();
+
 
         }
-        catch (IllegalArgumentException iae){
-            System.err.println(iae);
+        catch (Exception e){
+            System.err.println(e);
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            alert.show();
         }
     }
+
+    public void addMatch(ActionEvent actionEvent) {
+        try{
+
+            LocalDate matchDate = dateMatchDate.getValue();
+            LocalTime matchTime = LocalTime.parse(txtMatchTime.getText() + ":00");
+            LocalDateTime dt = LocalDateTime.of(matchDate, matchTime);
+
+            String[] handledMessage = parseResponse(client.sendRequest("M|" + dt + "|" + txtTeam1Match.getText() + "|" + txtTeam2Match.getText()));
+
+            if(handledMessage[0].equals("0")){
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Player Added Successfully");
+                alert.show();
+            }
+            else{
+                Alert alert = new Alert(Alert.AlertType.ERROR, handledMessage[2]);
+                alert.show();
+            }
+
+        }
+        catch(Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            alert.show();
+        }
+    }
+
+
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -64,7 +65,7 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="1.0" layoutY="13.0" prefHeight="103.0" prefWidth="423.0" text="Add Tournament Referees" textAlignment="CENTER" textFill="#1cc3bd">
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="27.0" layoutY="14.0" prefHeight="103.0" prefWidth="423.0" text="Add Tournament Referees" textAlignment="CENTER" textFill="#1cc3bd">
                            <font>
                               <Font size="36.0" />
                            </font>
@@ -81,7 +82,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <GridPane layoutX="372.0" layoutY="231.0" prefHeight="226.0" prefWidth="336.0">
+                        <GridPane layoutX="372.0" layoutY="185.0" prefHeight="226.0" prefWidth="336.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="303.0" minWidth="10.0" prefWidth="275.0" />
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="515.0" minWidth="10.0" prefWidth="389.0" />
@@ -135,6 +136,59 @@
                      </children>
                   </AnchorPane>
               </content>
+            </Tab>
+            <Tab text="Add Match">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <GridPane layoutX="372.0" layoutY="185.0" prefHeight="226.0" prefWidth="336.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="303.0" minWidth="10.0" prefWidth="275.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="515.0" minWidth="10.0" prefWidth="389.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints maxHeight="72.0" minHeight="10.0" prefHeight="72.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="72.0" minHeight="10.0" prefHeight="72.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="94.0" minHeight="10.0" prefHeight="74.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="133.0" minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Label text="Match Date:">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Team 1:" GridPane.rowIndex="2">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txtTeam1Match" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label text="Team 2:" GridPane.rowIndex="3">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txtTeam2Match" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <DatePicker fx:id="dateMatchDate" GridPane.columnIndex="1" />
+                              <Label text="Match Time:" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txtMatchTime" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                           </children>
+                        </GridPane>
+                        <Label layoutX="38.0" layoutY="52.0" text="Add Match to Tournament" textFill="#1cc3bd">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="btnAddMatch" layoutX="460.0" layoutY="466.0" mnemonicParsing="false" onAction="#addMatch" text="Add Match to Tournament" />
+                        <Label layoutX="715.0" layoutY="250.0" prefHeight="32.0" prefWidth="195.0" text="(For time, insert in format HH:MM)" />
+                     </children>
+                  </AnchorPane>
+               </content>
             </Tab>
             </tabs>
         </TabPane>

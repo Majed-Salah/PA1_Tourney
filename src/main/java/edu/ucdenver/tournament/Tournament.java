@@ -26,27 +26,34 @@ public class Tournament implements Serializable {
         this.listMatches = new ArrayList<>();
     }
 
-    public void addTeam(String name, String country){
+    public void addTeam(String name, String country) throws IllegalArgumentException{
         Country teamCountry = null;
-        try {
-            for (Country c : participatingCountries) {
-                if (c.getCountryName().equals(country)) {
-                    teamCountry = c;
-                }
+        for (Country c : participatingCountries) {
+            if (c.getCountryName().equals(country)) {
+                teamCountry = c;
             }
-            Team team = new Team(name, teamCountry);
-            listTeams.add(team);
         }
-        catch(Exception e){
-            System.err.println("Country not participating: " + e);
+
+        if(teamCountry == null){
+            throw new IllegalArgumentException("Country not participating in tournament.");
         }
+
+        for(Team team: listTeams){
+            if(team.getTeamName().equals(name)){
+                throw new IllegalArgumentException("Team name is already taken for tournament.");
+            }
+        }
+
+        Team team = new Team(name, teamCountry);
+        listTeams.add(team);
+
     }
 
     public void addCountry(String country) throws IllegalArgumentException{
         Country c = new Country(country);
         for(Country count: participatingCountries){
             if(count.getCountryName().equals(country)){
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("Country already in tournament");
             }
         }
         this.participatingCountries.add(c);
@@ -80,7 +87,8 @@ public class Tournament implements Serializable {
         team.addPlayer(playerName, age, height, weight);
     }
 
-    public void addMatch(LocalDateTime dateTime, String teamAName, String teamBName){
+    public void addMatch(String dateTime, String teamAName, String teamBName){
+        LocalDateTime dt = LocalDateTime.parse(dateTime);
         Team teamA = null;
         Team teamB = null;
 
@@ -93,7 +101,7 @@ public class Tournament implements Serializable {
             }
         }
 
-        Match match = new Match(dateTime, teamA, teamB);
+        Match match = new Match(dt, teamA, teamB);
         listMatches.add(match);
     }
 

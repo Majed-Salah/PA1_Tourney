@@ -53,6 +53,10 @@ public class ClientWorker implements Runnable {
                         this.server.shutdown();
                         break;
                     }
+                    else{
+                        serverResponse = processClientMessage(clientMsg);
+                        sendMessage(serverResponse, output);
+                    }
                 }
                 catch(Exception e){
                     System.err.println(e);
@@ -115,27 +119,46 @@ public class ClientWorker implements Runnable {
         printWrite.println(message);
     }
 
-    protected void processClientMessage(String message, PrintWriter pw) throws Exception{
+    protected String processClientMessage(String message) throws IllegalArgumentException{
         // parsing command for tournament handling based on parsed message
 
         String[] splitMessage = message.split("\\|");
         Tournament t = server.getTournament();
         switch(splitMessage[0]){
             case "D":
-                t.addTeam(splitMessage[1], splitMessage[2]);
-                break;
+                try {
+                    t.addTeam(splitMessage[1], splitMessage[2]);
+                    return "0|OK|Added team to tournament";
+                }
+                catch(IllegalArgumentException iae){
+                    return "1|ERR|" + iae;
+                }
             case "C":
-                t.addCountry(splitMessage[1]);
-                sendMessage("0|OK|Added Country", pw);
-                break;
+                try {
+                    t.addCountry(splitMessage[1]);
+                    return "0|OK|Added Country";
+                }
+                catch(IllegalArgumentException iae){
+                    return "1|ERR|Country already in list";
+                }
             case "R":
-                t.addReferee(splitMessage[1], splitMessage[2]);
-                break;
+                try {
+                    t.addReferee(splitMessage[1], splitMessage[2]);
+                    return "0|OK|Referee added to tournament";
+                }
+                catch(IllegalArgumentException iae){
+                    return "1|ERR|Referee already in tournament";
+                }
             case "P":
-                t.addPlayer(splitMessage[1], splitMessage[2], Integer.parseInt(splitMessage[3]), Double.parseDouble(splitMessage[4]), Double.parseDouble(splitMessage[5]));
-                break;
+                try {
+                    t.addPlayer(splitMessage[1], splitMessage[2], Integer.parseInt(splitMessage[3]), Double.parseDouble(splitMessage[4]), Double.parseDouble(splitMessage[5]));
+                    return "0|OK|Player added to tournament";
+                }
+                catch(IllegalArgumentException iae){
+                    return "1|ERR|Error adding player to tournament";
+                }
             case "M":
-                t.addMatch(LocalDateTime.parse(splitMessage[1]), splitMessage[2], splitMessage[3]);
+                t.addMatch(splitMessage[1], splitMessage[2], splitMessage[3]);
                 break;
             // case "A":
                 // t.addRefereeToMatch(splitMessage[1], splitMessage[2], splitMessage[3]);
@@ -165,6 +188,8 @@ public class ClientWorker implements Runnable {
                 this.keepRunningClient = false;
                 break;
         }
+
+        return null;
 
     }
 
