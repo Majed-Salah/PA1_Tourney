@@ -1,4 +1,4 @@
-package edu.ucdenver.pa1_tourney;
+package edu.ucdenver.tourney_app;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

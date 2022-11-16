@@ -1,4 +1,4 @@
-package edu.ucdenver.pa1_tourney;
+package edu.ucdenver.tourney_app;
 
 import edu.ucdenver.tournament.Country;
 import edu.ucdenver.tournament.Team;

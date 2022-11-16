@@ -1,5 +1,5 @@
 module:edu.ucdenver.pa1_tourney
 edu.ucdenver.client
-edu.ucdenver.pa1_tourney
 edu.ucdenver.server
 edu.ucdenver.tournament
+edu.ucdenver.tourney_app
