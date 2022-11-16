@@ -5,11 +5,7 @@ import edu.ucdenver.tournament.Team;
 import edu.ucdenver.tournament.Tournament;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.fxml.FXML;
 import javafx.scene.control.*;
-
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -17,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import edu.ucdenver.client.Client;
 
+/**
+ * Explaing the controller sadsadasd
+ */
 public class HelloController {
 
     public TextField txtCountryField;

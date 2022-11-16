@@ -16,6 +16,9 @@ public class Tournament implements Serializable {
     private ArrayList<Match> listMatches;
     public static final String filename = "./tournament.ser";
 
+    /**
+     * Tournament Class is used to hold info about TOURBEUADS
+     * */
     public Tournament(String name, LocalDate startDate, LocalDate endDate){
         this.name = name;
         this.startDate = startDate;
