@@ -71,8 +71,12 @@ public class Match {
      * addReferee Function:
      */
     public void addReferee(Referee ref){
-        // TODO Need to handle exception if already exists
-        matchReferees.add(ref);
+        if(matchReferees.contains(ref)){
+            throw new IllegalArgumentException("Referee already in match.");
+        }
+        else {
+            matchReferees.add(ref);
+        }
     }
 
     /**
@@ -91,5 +95,8 @@ public class Match {
     public LocalDateTime getDate(){
         return dateTime;
     }
+
+    public Team getTeamATeam(){ return teamA; }
+    public Team getTeamBTeam(){ return teamB; }
 
 }

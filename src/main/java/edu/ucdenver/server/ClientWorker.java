@@ -139,7 +139,7 @@ public class ClientWorker implements Runnable {
                     return "0|OK|Added Country";
                 }
                 catch(IllegalArgumentException iae){
-                    return "1|ERR|Country already in list";
+                    return "1|ERR|" + iae;
                 }
             case "R":
                 try {
@@ -147,7 +147,7 @@ public class ClientWorker implements Runnable {
                     return "0|OK|Referee added to tournament";
                 }
                 catch(IllegalArgumentException iae){
-                    return "1|ERR|Referee already in tournament";
+                    return "1|ERR|" + iae;
                 }
             case "P":
                 try {
@@ -155,14 +155,27 @@ public class ClientWorker implements Runnable {
                     return "0|OK|Player added to tournament";
                 }
                 catch(IllegalArgumentException iae){
-                    return "1|ERR|Error adding player to tournament";
+                    return "1|ERR|" + iae;
                 }
             case "M":
-                t.addMatch(splitMessage[1], splitMessage[2], splitMessage[3]);
+                try {
+                    t.addMatch(LocalDateTime.parse(splitMessage[1]), splitMessage[2], splitMessage[3]);
+                    return "0|OK|Successfully added match to tournament.";
+                }
+                catch(IllegalArgumentException iae){
+                    return "1|ERR|" + iae;
+                }
+            case "A":
+                t.addRefereeToMatch(LocalDateTime.parse(splitMessage[1]), splitMessage[2]);
                 break;
-            // case "A":
-                // t.addRefereeToMatch(splitMessage[1], splitMessage[2], splitMessage[3]);
-                // break;
+            case "Z":
+                try {
+                    t.checkRefereeForMatch(LocalDateTime.parse(splitMessage[1]), splitMessage[2]);
+                }
+                catch(IllegalArgumentException iae){
+                    return "1|ERR|" + iae;
+                }
+                break;
             case "S":
                 t.setMatchScore(LocalDateTime.parse(splitMessage[1]), Integer.parseInt(splitMessage[2]), Integer.parseInt(splitMessage[3]));
                 break;
@@ -184,6 +197,14 @@ public class ClientWorker implements Runnable {
             case "W":
                 t.getTeams();
                 break;
+            case "Y":
+                try {
+                    t.addPlayerToMatch(LocalDateTime.parse(splitMessage[1]), splitMessage[2], splitMessage[3]);
+                    return "0|OK|Player added to line up.";
+                }
+                catch(Exception e){
+                    return "1|ERR|" + e;
+                }
             case "T":
                 this.keepRunningClient = false;
                 break;
