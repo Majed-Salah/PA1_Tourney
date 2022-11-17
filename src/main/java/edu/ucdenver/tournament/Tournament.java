@@ -29,6 +29,9 @@ public class Tournament implements Serializable {
         this.listMatches = new ArrayList<>();
     }
 
+    /**
+     *
+     * */
     public void addTeam(String name, String country) throws IllegalArgumentException{
         Country teamCountry = null;
         for (Country c : participatingCountries) {
@@ -36,22 +39,21 @@ public class Tournament implements Serializable {
                 teamCountry = c;
             }
         }
-
         if(teamCountry == null){
             throw new IllegalArgumentException("Country not participating in tournament.");
         }
-
         for(Team team: listTeams){
             if(team.getTeamName().equals(name)){
                 throw new IllegalArgumentException("Team name is already taken for tournament.");
             }
         }
-
         Team team = new Team(name, teamCountry);
         listTeams.add(team);
-
     }
 
+    /**
+     *
+     * */
     public void addCountry(String country) throws IllegalArgumentException{
         Country c = new Country(country);
         for(Country count: participatingCountries){
@@ -62,6 +64,9 @@ public class Tournament implements Serializable {
         this.participatingCountries.add(c);
     }
 
+    /**
+     *
+     * */
     public void addReferee(String name, String country) throws IllegalArgumentException{
         Country c = null;
         for(Country count: participatingCountries){
@@ -80,6 +85,9 @@ public class Tournament implements Serializable {
         }
     }
 
+    /**
+     *
+     * */
     public void addPlayer(String teamName, String playerName, int age, double height, double weight){
         Team team = null;
         for(Team t: listTeams){
@@ -90,6 +98,9 @@ public class Tournament implements Serializable {
         team.addPlayer(playerName, age, height, weight);
     }
 
+    /**
+     *
+     * */
     public void addMatch(String dateTime, String teamAName, String teamBName){
         LocalDateTime dt = LocalDateTime.parse(dateTime);
         Team teamA = null;
@@ -108,11 +119,17 @@ public class Tournament implements Serializable {
         listMatches.add(match);
     }
 
+    /**
+     *
+     * */
     public void addRefereeToMatch(LocalDateTime dateTime, String refereeName){
         Match match = null;
 
     }
 
+    /**
+     *
+     * */
     public void addPlayerToMatch(LocalDateTime dateTime, String teamName, String playerName){
         Team team = null;
         Player player = null;
@@ -136,6 +153,9 @@ public class Tournament implements Serializable {
 
     }
 
+    /**
+     *
+     * */
     public void setMatchScore(LocalDateTime matchDate, int team1Score, int team2Score){
         Match m = null;
         for(Match match: listMatches){
@@ -146,6 +166,9 @@ public class Tournament implements Serializable {
         m.setMatchScore(team1Score, team2Score);
     }
 
+    /**
+     *
+     * */
     public ArrayList<Match> getUpcomingMatches(){
         ArrayList<Match> upcomingMatches = new ArrayList<>();
         for(Match match: listMatches){
@@ -158,6 +181,9 @@ public class Tournament implements Serializable {
 
     }
 
+    /**
+     *
+     * */
     public ArrayList<Match> getMatchesOn(LocalDateTime matchDate){
         ArrayList<Match> dateMatches = new ArrayList<>();
 
@@ -175,6 +201,9 @@ public class Tournament implements Serializable {
 
     }
 
+    /**
+     *
+     * */
     public ArrayList<Match> getMatchesFor(String teamName){
         ArrayList<Match> teamMatches = new ArrayList<>();
         for(Match match: listMatches){
@@ -187,6 +216,9 @@ public class Tournament implements Serializable {
 
     }
 
+    /**
+     *
+     * */
     public ArrayList<LineUp> getMatchLineUps(LocalDateTime matchDate){
         ArrayList<LineUp> matchLineUp = new ArrayList<>();
         for(Match match: listMatches){
@@ -200,15 +232,24 @@ public class Tournament implements Serializable {
 
     }
 
+    /**
+     *
+     * */
     public ArrayList<Country> getListCountries(){
         return participatingCountries;
     }
 
 
+    /**
+     *
+     * */
     public ArrayList<Team> getTeams() {
         return listTeams;
     }
 
+    /**
+     *
+     * */
     public void saveToFile(){
 
         ObjectOutputStream oos = null;
@@ -233,6 +274,9 @@ public class Tournament implements Serializable {
         }
     }
 
+    /**
+     *
+     * */
     public static Tournament loadFromFile() throws FileNotFoundException{
         ObjectInputStream ois = null;
         Tournament tournament = null;
