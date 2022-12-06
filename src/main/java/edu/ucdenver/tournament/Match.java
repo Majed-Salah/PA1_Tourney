@@ -6,6 +6,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Match Class:
+ * A Match consists of a Date, Time, and Pair of Teams. Matches are correlated with a LineUp, which contains all the
+ * players that are participating in the Match (11/35 in squad to be specific). We also have functions to add players to
+ * a team, add Referee's to a match, update the match score, and a few other basic getter and setter functions.
+ */
 public class Match {
     private LocalDateTime dateTime;
     private int scoreTeamA;
@@ -16,9 +22,7 @@ public class Match {
     private LineUp lineUpA = new LineUp(teamA);
     private LineUp lineUpB = new LineUp(teamB);
 
-    /**
-     * Match Class Constructor:
-     */
+
     public Match(LocalDateTime dateTime, Team teamA, Team teamB){
         this.dateTime = dateTime;
         this.teamA = teamA;
@@ -98,5 +102,10 @@ public class Match {
 
     public Team getTeamATeam(){ return teamA; }
     public Team getTeamBTeam(){ return teamB; }
+
+    @Override
+    public String toString(){
+        return this.dateTime + " -- " + teamA.getTeamName() + " AGAINST " +  teamB.getTeamName();
+    }
 
 }

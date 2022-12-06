@@ -1,6 +1,8 @@
 package edu.ucdenver.server;
 
 
+import edu.ucdenver.tournament.LineUp;
+import edu.ucdenver.tournament.Match;
 import edu.ucdenver.tournament.Tournament;
 
 import java.io.BufferedReader;
@@ -9,7 +11,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import edu.ucdenver.tournament.Team;
 
 public class ClientWorker implements Runnable {
 
@@ -177,26 +182,74 @@ public class ClientWorker implements Runnable {
                 }
                 break;
             case "S":
-                t.setMatchScore(LocalDateTime.parse(splitMessage[1]), Integer.parseInt(splitMessage[2]), Integer.parseInt(splitMessage[3]));
-                break;
+                try {
+                    t.setMatchScore(LocalDateTime.parse(splitMessage[1]), Integer.parseInt(splitMessage[2]), Integer.parseInt(splitMessage[3]));
+                    return "0|OK|Match score successfully set.";
+                }
+                catch(IllegalArgumentException iae){
+                    return "1|ERR|Unable to set score for match.";
+                }
             case "L":
                 t.getUpcomingMatches();
                 break;
             case "G":
-                t.getMatchesOn(LocalDateTime.parse(splitMessage[1]));
-                break;
+
+                System.out.println("Input G");
+                try {
+                    String response = "0|OK";
+                    ArrayList<Match> matches;
+                    matches = t.getMatchesOn(LocalDate.parse(splitMessage[1]));
+                    for(Match match : matches){
+                        response += "|" + match.toString();
+                    }
+                    return response;
+                }
+                catch(IllegalArgumentException iae){
+                    return "1|ERR|No matches for selected team.";
+                }
+
             case "F":
-                t.getMatchesFor(splitMessage[1]);
-                break;
+                System.out.println("Reached here");
+                try {
+                    String response = "0|OK";
+                    ArrayList<Match> matches;
+                    matches = t.getMatchesFor(splitMessage[1]);
+                    for(Match match : matches){
+                        response += "|" + match.toString();
+                    }
+
+                    return response;
+                }
+                catch(IllegalArgumentException iae){
+                    return "1|ERR|No matches for selected team.";
+                }
+
             case "U":
-                t.getMatchLineUps(LocalDateTime.parse(splitMessage[1]));
-                break;
+                String response = "0|OK";
+                ArrayList<LineUp> line;
+                line = t.getMatchLineUps(LocalDateTime.parse(splitMessage[1]));
+                for(LineUp l : line){
+                    response += "|" + l.toString();
+                }
             case "H":
-                t.getListCountries();
-                break;
+                response = "0|OK";
+                ArrayList<Match> matches = t.getListMatches();
+                for(Match match : matches){
+                    response += "|" + match.getDate();
+                }
+                return response;
+
             case "W":
-                t.getTeams();
-                break;
+                System.out.println("Input W");
+                response = "0|OK";
+                ArrayList<Team> teams;
+                teams = t.getTeams();
+                for(Team team : teams){
+                    response += "|" + team.getTeamName();
+                }
+
+                return response;
+
             case "Y":
                 try {
                     t.addPlayerToMatch(LocalDateTime.parse(splitMessage[1]), splitMessage[2], splitMessage[3]);

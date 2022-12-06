@@ -6,6 +6,12 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 
+/**
+ * Tournament Class
+ * The tournament class wraps all the different parts together with functions that leverage all the functions
+ * in the remaining classes below. The main purpose of the functions in this class are to get and set tournament
+ * variables by utilizing the functions within all the objects that are used in a tournament.
+ */
 public class Tournament implements Serializable {
     private String name;
     private LocalDate startDate;
@@ -15,6 +21,7 @@ public class Tournament implements Serializable {
     private ArrayList<Referee> listReferees;
     private ArrayList<Match> listMatches;
     public static final String filename = "./tournament.ser";
+
 
     public Tournament(String name, LocalDate startDate, LocalDate endDate){
         this.name = name;
@@ -116,6 +123,9 @@ public class Tournament implements Serializable {
 
         Match match = new Match(dateTime, teamA, teamB);
         listMatches.add(match);
+        for(Match m : listMatches){
+            System.out.println(m);
+        }
     }
 
     public void addRefereeToMatch(LocalDateTime dateTime, String refereeName){
@@ -128,8 +138,8 @@ public class Tournament implements Serializable {
             }
         }
 
-        Country t1 = match.getTeamA().getTeam().getCountry();
-        Country t2 = match.getTeamB().getTeam().getCountry();
+        Country t1 = match.getTeamATeam().getCountry();
+        Country t2 = match.getTeamBTeam().getCountry();
 
         if(match == null){
             throw new IllegalArgumentException("Match at this time is not set.");
@@ -168,7 +178,6 @@ public class Tournament implements Serializable {
             team = match.getTeamATeam();
         }
         else if(teamName.equals(match.getTeamBTeam().getTeamName())){
-            System.out.println(match.getTeamB().getTeam());
             team = match.getTeamBTeam();
         }
         else{
@@ -189,12 +198,16 @@ public class Tournament implements Serializable {
 
     }
 
-    public void setMatchScore(LocalDateTime matchDate, int team1Score, int team2Score){
+    public void setMatchScore(LocalDateTime matchDate, int team1Score, int team2Score) throws IllegalArgumentException{
         Match m = null;
         for(Match match: listMatches){
+            // check for dates and see if the same
             if(match.getDate() == matchDate){
                 m = match;
             }
+        }
+        if(m == null){
+            throw new IllegalArgumentException("No match at this date/time");
         }
         m.setMatchScore(team1Score, team2Score);
     }
@@ -211,15 +224,13 @@ public class Tournament implements Serializable {
 
     }
 
-    public ArrayList<Match> getMatchesOn(LocalDateTime matchDate){
+    public ArrayList<Match> getMatchesOn(LocalDate matchDate){
         ArrayList<Match> dateMatches = new ArrayList<>();
 
-        int year = matchDate.getYear();
-        Month month = matchDate.getMonth();
-        int day = matchDate.getDayOfMonth();
-
         for(Match match: listMatches){
-            if(match.getDate().getYear() == year && match.getDate().getMonth() == month && match.getDate().getDayOfMonth() == day){
+            System.out.println(match);
+            if(match.getDate().toLocalDate().equals(matchDate)){
+                System.out.println(match.getDate().toLocalDate());
                 dateMatches.add(match);
             }
         }
@@ -231,11 +242,13 @@ public class Tournament implements Serializable {
     public ArrayList<Match> getMatchesFor(String teamName){
         ArrayList<Match> teamMatches = new ArrayList<>();
         for(Match match: listMatches){
-            if(match.getTeamA().getTeam().getTeamName().equals(teamName) || match.getTeamB().getTeam().getTeamName().equals(teamName)){
+            // go through names and see what is different
+            if(match.getTeamATeam().getTeamName().equals(teamName) || match.getTeamBTeam().getTeamName().equals(teamName)){
                 teamMatches.add(match);
             }
         }
 
+        System.out.println(teamMatches);
         return teamMatches;
 
     }
@@ -320,18 +333,23 @@ public class Tournament implements Serializable {
             }
         }
 
-        Country t1 = match.getTeamA().getTeam().getCountry();
-        Country t2 = match.getTeamB().getTeam().getCountry();
+        Country t1 = match.getTeamATeam().getCountry();
+        Country t2 = match.getTeamBTeam().getCountry();
 
         if(match == null){
             throw new IllegalArgumentException("Match at this time is not set.");
         }
 
+        // check if referees are the same
         for(Referee ref: match.getReferees()){
             if(ref.getCountry() == t1 || ref.getCountry() == t2){
                 throw new IllegalArgumentException("Cannot assign referee representing same country as a team");
             }
         }
+    }
+
+    public ArrayList<Match> getListMatches(){
+        return this.listMatches;
     }
 
 }
