@@ -104,7 +104,6 @@ public class Server implements Runnable{
         }
     }
 
-
     public void shutdown(){
         this.keepServerRunning = false;
         try {
@@ -120,10 +119,14 @@ public class Server implements Runnable{
         clientWorkers.remove(cw);
     }
 
+
     public Tournament getTournament(){
         return tournament;
     }
 
+    public void setTournament(Tournament t){
+        this.tournament =  t;
+    }
 
     public static void main(String[] args){
         Server server = new Server(10000, 10);

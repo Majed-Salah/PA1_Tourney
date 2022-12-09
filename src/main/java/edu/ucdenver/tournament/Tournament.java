@@ -20,7 +20,7 @@ public class Tournament implements Serializable {
     private ArrayList<Country> participatingCountries;
     private ArrayList<Referee> listReferees;
     private ArrayList<Match> listMatches;
-    public static final String filename = "./tournament.ser";
+    public static final String filename = "src/main/java/edu/ucdenver/tournament/tournament.ser";
 
 
     public Tournament(String name, LocalDate startDate, LocalDate endDate){
@@ -96,7 +96,14 @@ public class Tournament implements Serializable {
                 team = t;
             }
         }
-        team.addPlayer(playerName, age, height, weight);
+        if (team != null){
+            team.addPlayer(playerName, age, height, weight);
+            System.out.println("Team Squad: "+ team.getSquad());
+        }
+        else{
+            throw new IllegalArgumentException("Could not find team to add player to");
+        }
+
     }
 
     public void addMatch(LocalDateTime dateTime, String teamAName, String teamBName) throws IllegalArgumentException{
@@ -133,29 +140,58 @@ public class Tournament implements Serializable {
         Referee ref = null;
 
         for(Match m: listMatches){
-            if(m.getDate() == dateTime){
+            if(m.getDate().equals(dateTime)){
                 match = m;
             }
         }
-
-        Country t1 = match.getTeamATeam().getCountry();
-        Country t2 = match.getTeamBTeam().getCountry();
 
         if(match == null){
             throw new IllegalArgumentException("Match at this time is not set.");
         }
 
-        for(Referee r: match.getReferees()){
+        Country team1Country = match.getTeamATeam().getCountry();
+        Country team2Country = match.getTeamBTeam().getCountry();
+
+
+        for(Referee r: listReferees){
             if(r.getName().equals(refereeName)){
                 ref = r;
+                if(ref.getCountry() == team1Country || ref.getCountry() == team2Country){
+                    throw new IllegalArgumentException("Cannot assign referee representing same country as a team");
+                }
             }
-            if(ref.getCountry() == t1 || ref.getCountry() == t2){
-                throw new IllegalArgumentException("Cannot assign referee representing same country as a team");
+
+        }
+        match.addReferee(ref);
+//        System.out.println("MATCH: " + match + ", REFEREES: " + listReferees + "MatchRef's: " + match.getReferees());
+    }
+
+    public void checkRefereeForMatch(LocalDateTime dateTime, String refereeName){
+        Match match = null;
+        System.out.println(listMatches);
+        for(Match m: listMatches){
+            if(m.getDate().equals(dateTime)){ // TODO
+                match = m;
+                System.out.println("Does Time: " + dateTime + " == " + m.getDate());
+                break;
             }
         }
+        System.out.println("Match: " + match);
 
-        match.addReferee(ref);
+        if(match == null){
+            throw new IllegalArgumentException("Match at this time is not set.");
+        }
 
+        Country team1Country = match.getTeamATeam().getCountry();
+        Country team2Country = match.getTeamBTeam().getCountry();
+
+        for (Referee ref : listReferees){ // loop through the ref's
+            if(ref.getName().equals(refereeName)){
+                if(ref.getCountry() == team1Country || ref.getCountry() == team2Country){
+                    throw new IllegalArgumentException("Cannot assign referee representing same country as a team");
+                }
+            }
+        }
     }
 
     public void addPlayerToMatch(LocalDateTime dateTime, String teamName, String playerName) throws IllegalArgumentException{
@@ -163,16 +199,17 @@ public class Tournament implements Serializable {
         Team team;
         Player player = null;
 
+        // step 1: find the match with given dataTime and ensure that we found a match, raise an error otherwise
         for(Match m: listMatches){
             if(m.getDate().compareTo(dateTime) == 0){
                 match = m;
             }
         }
-
         if(match == null){
             throw new IllegalArgumentException("No match at particular time.");
         }
 
+        // step 2: check if the teamName passed in is for Team A or Team B and assign team for player search, if neither, raise exception
         if(teamName.equals(match.getTeamATeam().getTeamName())){
             System.out.println(match.getTeamATeam().getTeamName());
             team = match.getTeamATeam();
@@ -184,25 +221,27 @@ public class Tournament implements Serializable {
             throw new IllegalArgumentException("Team not in match.");
         }
 
+        // step 3: loop through the players in the team found in step 2
+        // team at this point is a team
+        System.out.println("TEAM: " + team.getTeamName());
+        System.out.println("SQUAD: " + team.getSquad());
         for(Player p: team.getSquad()){
             if(p.getName().equals(playerName)){
                 player = p;
             }
         }
-
         if(player == null){
             throw new IllegalArgumentException("Player not in team.");
         }
-
+        System.out.println("MATCH: " + match.toString() + ", PLAYER: " + player.getName() + ", TEAM: " + team.getTeamName());
         match.addPlayer(player, team);
-
     }
 
     public void setMatchScore(LocalDateTime matchDate, int team1Score, int team2Score) throws IllegalArgumentException{
         Match m = null;
         for(Match match: listMatches){
             // check for dates and see if the same
-            if(match.getDate() == matchDate){
+            if(match.getDate().equals(matchDate)){
                 m = match;
             }
         }
@@ -256,7 +295,7 @@ public class Tournament implements Serializable {
     public ArrayList<LineUp> getMatchLineUps(LocalDateTime matchDate){
         ArrayList<LineUp> matchLineUp = new ArrayList<>();
         for(Match match: listMatches){
-            if(match.getDate() == matchDate){
+            if(match.getDate().equals(matchDate)){
                 matchLineUp.add(match.getTeamA());
                 matchLineUp.add(match.getTeamB());
             }
@@ -276,16 +315,15 @@ public class Tournament implements Serializable {
     }
 
     public void saveToFile(){
-
         ObjectOutputStream oos = null;
 
         try{
             oos = new ObjectOutputStream(new FileOutputStream(filename));
             oos.writeObject(this);
+            // TODO is this object enough?
         }
         catch (IOException ioe){
             ioe.printStackTrace();
-
         }
         finally{
             if(oos != null){
@@ -325,28 +363,7 @@ public class Tournament implements Serializable {
         return tournament;
     }
 
-    public void checkRefereeForMatch(LocalDateTime dateTime, String refereeName){
-        Match match = null;
-        for(Match m: listMatches){
-            if(m.getDate() == dateTime){
-                match = m;
-            }
-        }
 
-        Country t1 = match.getTeamATeam().getCountry();
-        Country t2 = match.getTeamBTeam().getCountry();
-
-        if(match == null){
-            throw new IllegalArgumentException("Match at this time is not set.");
-        }
-
-        // check if referees are the same
-        for(Referee ref: match.getReferees()){
-            if(ref.getCountry() == t1 || ref.getCountry() == t2){
-                throw new IllegalArgumentException("Cannot assign referee representing same country as a team");
-            }
-        }
-    }
 
     public ArrayList<Match> getListMatches(){
         return this.listMatches;

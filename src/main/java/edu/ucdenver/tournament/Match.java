@@ -1,6 +1,7 @@
 package edu.ucdenver.tournament;
 
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,35 +13,37 @@ import java.util.List;
  * players that are participating in the Match (11/35 in squad to be specific). We also have functions to add players to
  * a team, add Referee's to a match, update the match score, and a few other basic getter and setter functions.
  */
-public class Match {
+public class Match implements Serializable {
     private LocalDateTime dateTime;
     private int scoreTeamA;
     private int scoreTeamB;
-    private ArrayList<Referee> matchReferees;
+    private ArrayList<Referee> matchReferees = new ArrayList<>();
     private Team teamA;
     private Team teamB;
-    private LineUp lineUpA = new LineUp(teamA);
-    private LineUp lineUpB = new LineUp(teamB);
+    private LineUp lineUpA ;
+    private LineUp lineUpB ;
 
 
     public Match(LocalDateTime dateTime, Team teamA, Team teamB){
         this.dateTime = dateTime;
         this.teamA = teamA;
         this.teamB = teamB;
+        this.lineUpA = new LineUp(teamA);
+        this.lineUpB = new LineUp(teamB);
     }
 
     /**
      * getTeamA Function:
      */
     public LineUp getTeamA(){
-        return lineUpA;
+        return this.lineUpA;
     }
 
     /**
      * getTeamB Function:
      */
     public LineUp getTeamB(){
-        return lineUpB;
+        return this.lineUpB;
     }
 
     /**
@@ -75,12 +78,13 @@ public class Match {
      * addReferee Function:
      */
     public void addReferee(Referee ref){
-        if(matchReferees.contains(ref)){
-            throw new IllegalArgumentException("Referee already in match.");
+        if (matchReferees != null){ // if there are existing match referees
+            if(matchReferees.contains(ref)){ // check that this ref isnt in matches referee list
+                throw new IllegalArgumentException("Referee already in match."); // if it is, throw an error
+            }
         }
-        else {
-            matchReferees.add(ref);
-        }
+        // if we made it past above check, add the referee
+        this.matchReferees.add(ref);
     }
 
     /**
@@ -102,6 +106,10 @@ public class Match {
 
     public Team getTeamATeam(){ return teamA; }
     public Team getTeamBTeam(){ return teamB; }
+
+    public String getMatchScore(){
+        return " (" + this.scoreTeamA + " - " + this.scoreTeamB + ")";
+    }
 
     @Override
     public String toString(){

@@ -1,5 +1,7 @@
 package edu.ucdenver.tournament;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,8 +10,8 @@ import java.util.List;
  * is storing a list of players, a single team, and some functions to get the team and players or add a player. LineUp's
  * are matched up against each other within a Match so that two teams of 11 can play against each other.
 * */
-public class LineUp {
-    List<Player> listOfPlayers;
+public class LineUp implements Serializable {
+    List<Player> listOfPlayers = new ArrayList<>();
     Team team; // not sure about this
 
     public LineUp(Team team){
@@ -20,6 +22,7 @@ public class LineUp {
         return team;
     }
 
+    // TODO when is the lineup getting created
     public void addPlayer(Player player){
         try {
             if (this.team.getSquad().contains(player)) {
@@ -39,7 +42,7 @@ public class LineUp {
     public String toString(){
         String s = "";
         for(Player p : listOfPlayers){
-            s += ";" + p.getName();
+            s += p.getName() + ";";
         }
         return s;
     }

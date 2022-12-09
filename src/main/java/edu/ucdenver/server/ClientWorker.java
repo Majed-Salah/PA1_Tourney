@@ -5,10 +5,7 @@ import edu.ucdenver.tournament.LineUp;
 import edu.ucdenver.tournament.Match;
 import edu.ucdenver.tournament.Tournament;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.LocalDate;
@@ -29,7 +26,6 @@ public class ClientWorker implements Runnable {
         this.keepRunningClient = true;
 
     }
-
 
     @Override
     public void run() {
@@ -226,17 +222,36 @@ public class ClientWorker implements Runnable {
 
             case "U":
                 String response = "0|OK";
-                ArrayList<LineUp> line;
-                line = t.getMatchLineUps(LocalDateTime.parse(splitMessage[1]));
-                for(LineUp l : line){
+                ArrayList<LineUp> lineUps;
+                lineUps = t.getMatchLineUps(LocalDateTime.parse(splitMessage[1]));
+                for(LineUp l : lineUps){
                     response += "|" + l.toString();
                 }
+                System.out.println("RESPONSE -> " + response);
+                return response;
+
             case "H":
                 response = "0|OK";
                 ArrayList<Match> matches = t.getListMatches();
                 for(Match match : matches){
                     response += "|" + match.getDate();
                 }
+                System.out.println("RESPONSE: " + response);
+                return response;
+
+            case "HH":
+                response = "0|OK";
+                ArrayList<Match> detailedMatches = t.getListMatches();
+                for(Match match : detailedMatches){
+                    System.out.println("MATCHT TIME: " + match.getDate() + ", NOW: " + LocalDateTime.now());
+                    if (match.getDate().isBefore(LocalDateTime.now())){
+                        response += "|" + match.getTeamATeam().getTeamName() + " vs " + match.getTeamBTeam().getTeamName() + " @ " + match.getDate() + ", SCORE: " + match.getMatchScore();
+                    }
+                    else{
+                        response += "|" + match.getTeamATeam().getTeamName() + " vs " + match.getTeamBTeam().getTeamName() + " @ " + match.getDate();
+                    }
+                }
+                System.out.println("RESPONSE: " + response);
                 return response;
 
             case "W":
@@ -253,7 +268,7 @@ public class ClientWorker implements Runnable {
             case "Y":
                 try {
                     t.addPlayerToMatch(LocalDateTime.parse(splitMessage[1]), splitMessage[2], splitMessage[3]);
-                    return "0|OK|Player added to line up.";
+                    return "0|OK|Player added to match.";
                 }
                 catch(Exception e){
                     return "1|ERR|" + e;
@@ -261,8 +276,25 @@ public class ClientWorker implements Runnable {
             case "T":
                 this.keepRunningClient = false;
                 break;
-        }
 
+            case "SS": // save state
+                try {
+                    t.saveToFile();
+                    return "0|OK|Tournament State Saved.";
+                } catch (Exception e) {
+                    return "1|ERR|" + e;
+                }
+
+
+            case "LS": // load state
+                try {
+                    t = Tournament.loadFromFile();  // returns a tournament object loaded from tournament.ser
+                    server.setTournament(t);        // set tournament which is stored in the server
+                    return "0|OK|Tournament State Loaded.";
+                } catch (FileNotFoundException e) {
+                    return "1|ERR|" + e;
+                }
+        }
         return null;
 
     }

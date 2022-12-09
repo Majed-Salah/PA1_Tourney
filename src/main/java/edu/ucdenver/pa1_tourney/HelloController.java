@@ -231,7 +231,7 @@ public class HelloController {
             refs.add(txtReferee4.getText());
 
             for(String ref : refs){
-                if(ref.equals(null)){
+                if(ref.equals("")){
                     throw new IllegalArgumentException("Missing referee.");
                 }
             }
@@ -294,7 +294,7 @@ public class HelloController {
 
             LocalDate date = dateRecordMatchAtDate.getValue();
             LocalTime time = LocalTime.parse(txtRecordMatchAtTime.getText() + ":00");
-            String[] serverResponse = parseResponse("S|" + client.sendRequest(LocalDateTime.of(date, time) + "|" + txtTeam1MatchScore.getText() + "|" + txtTeam2MatchScore.getText()));
+            String[] serverResponse = parseResponse(client.sendRequest("S|" + LocalDateTime.of(date, time) + "|" + txtTeam1MatchScore.getText() + "|" + txtTeam2MatchScore.getText()));
             if(serverResponse[0].equals("0")){
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, serverResponse[2]);
                 alert.show();
@@ -307,6 +307,22 @@ public class HelloController {
         catch(Exception e){
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.show();
+        }
+    }
+
+    public void saveToFile(ActionEvent actionEvent) {
+        try {
+            String[] serverResponse = parseResponse(client.sendRequest("SS|"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void loadFromFile(ActionEvent actionEvent) {
+        try {
+            String[] serverResponse = parseResponse(client.sendRequest("LS|"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

@@ -1,5 +1,6 @@
 package edu.ucdenver.tournament;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  * Add a player, which must be done before trying to assign player in a LineUp, and get all the previous attributes I have
  * mentioned (country, team name, squad).
 */
-public class Team {
+public class Team implements Serializable {
     private String name;
     private Country country;
     private ArrayList<Player> squad;
@@ -26,7 +27,7 @@ public class Team {
 
     public void addPlayer(String name, int age, double height, double weight){
         Player player = new Player(name, age, height, weight);
-        squad.add(player);
+        this.squad.add(player);
     }
 
     public String getTeamName() {
@@ -34,6 +35,6 @@ public class Team {
     }
 
     public ArrayList<Player> getSquad(){
-        return squad;
+        return this.squad;
     }
 }

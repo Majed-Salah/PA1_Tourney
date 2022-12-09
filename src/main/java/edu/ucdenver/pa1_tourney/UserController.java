@@ -6,11 +6,13 @@ import edu.ucdenver.tournament.Match;
 import edu.ucdenver.tournament.Tournament;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -111,20 +113,12 @@ public class UserController {
 
     public void getLineUps(ActionEvent actionEvent) {
 
-        ArrayList<String> listMatches = new ArrayList<>();
         ArrayList<String> lineupA = new ArrayList<>();
         ArrayList<String> lineupB = new ArrayList<>();
 
         try {
-            String[] matches = parseResponse(client.sendRequest("H|"));
-
-            for(int i = 2; i < matches.length; ++i){
-                listMatches.add(matches[i]);
-            }
-
-            choiceMatchDate.setItems(FXCollections.observableArrayList(listMatches));
-
             String[] results = parseResponse(client.sendRequest("U|" + choiceMatchDate.getValue()));
+            System.out.println("RESULTS: " + results);
             if(results[0].equals("0")) {
                 // split by semicolon in toString method
                 String[] teamA = results[2].split(";");
@@ -148,5 +142,61 @@ public class UserController {
             alert.show();
         }
 
+    }
+
+    public void getMatchLineUpsOnTabClick(Event event) {
+
+        ArrayList<String> listMatches = new ArrayList<>();
+
+        String[] matches;
+        try {
+            matches = parseResponse(client.sendRequest("H|"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        for(int i = 2; i < matches.length; ++i){
+            listMatches.add(matches[i]);
+            System.out.println("LIST MATCHES: " + listMatches);
+        }
+
+        choiceMatchDate.setItems(FXCollections.observableArrayList(listMatches));
+    }
+
+    public void getAllUpcomingMatches(ActionEvent actionEvent) {
+        ArrayList<String> listMatches = new ArrayList<>();
+
+        String[] matches;
+        try {
+            matches = parseResponse(client.sendRequest("HH|"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println("MTCHES: " + matches);
+        for(int i = 2; i < matches.length; ++i){
+            listMatches.add(matches[i]);
+        }
+
+        listRequestedMatches.setItems(FXCollections.observableArrayList(listMatches));
+    }
+
+    public void loadTeamsUpcomingMatchesTab(Event event) {
+        ArrayList<String> listOfTeams = new ArrayList<>();
+
+        String[] returnedTeams;
+        try {
+            returnedTeams = parseResponse(client.sendRequest("W|"));
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        for(int i = 2; i < returnedTeams.length; ++i){ // start after 2nd pipe
+            listOfTeams.add(returnedTeams[i]);
+        }
+        System.out.println("listOfTeams: " + listOfTeams);
+
+        comboTeamSelect.setItems(FXCollections.observableArrayList(listOfTeams));
     }
 }
