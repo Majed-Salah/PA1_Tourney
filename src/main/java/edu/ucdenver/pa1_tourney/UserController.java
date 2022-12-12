@@ -61,7 +61,7 @@ public class UserController {
 
             comboTeamSelect.setItems(FXCollections.observableArrayList(listOfTeams));
 
-// dont parse if there is nothing to read
+            // dont parse if there is nothing to read
             if(dateMatchSelect.getValue() != null) {
                 dateMatches = parseResponse(client.sendRequest("G|" + dateMatchSelect.getValue()));
                 if (dateMatches[0].equals("0") && dateMatches.length > 2) {
@@ -101,7 +101,7 @@ public class UserController {
 
             listRequestedMatches.setItems(FXCollections.observableArrayList(unionList));
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Country Added Successfully.");
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Filtering Successful.");
             alert.show();
         }
         catch(Exception e){
@@ -168,12 +168,11 @@ public class UserController {
 
         String[] matches;
         try {
-            matches = parseResponse(client.sendRequest("HH|"));
+            matches = parseResponse(client.sendRequest("L|"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        System.out.println("MTCHES: " + matches);
         for(int i = 2; i < matches.length; ++i){
             listMatches.add(matches[i]);
         }

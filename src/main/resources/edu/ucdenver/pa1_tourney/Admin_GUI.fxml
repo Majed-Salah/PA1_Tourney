@@ -137,7 +137,7 @@
                                                 <Font size="18.0" />
                                             </font>
                                         </Label>
-                                        <Label text="Width: " GridPane.rowIndex="4">
+                                        <Label text="Weight: " GridPane.rowIndex="4">
                                             <font>
                                                 <Font size="18.0" />
                                             </font>

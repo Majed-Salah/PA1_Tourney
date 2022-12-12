@@ -171,7 +171,8 @@ public class ClientWorker implements Runnable {
                 break;
             case "Z":
                 try {
-                    t.checkRefereeForMatch(LocalDateTime.parse(splitMessage[1]), splitMessage[2]);
+                    System.out.println("here");
+//                    t.checkRefereeForMatch(LocalDateTime.parse(splitMessage[1]), splitMessage[2]);
                 }
                 catch(IllegalArgumentException iae){
                     return "1|ERR|" + iae;
@@ -205,7 +206,6 @@ public class ClientWorker implements Runnable {
                 }
 
             case "F":
-                System.out.println("Reached here");
                 try {
                     String response = "0|OK";
                     ArrayList<Match> matches;
